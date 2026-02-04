@@ -70,7 +70,7 @@
             animation: float 6s ease-in-out infinite;
         }
 
-        /* Estilo do Toast (Aviso de Em Breve) */
+        /* Estilo do Toast */
         #toast {
             visibility: hidden;
             min-width: 200px;
@@ -93,6 +93,45 @@
             animation: fadein 0.5s, fadeout 0.5s 2.5s;
         }
 
+        /* Estilos do Modal de Termos */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: var(--bg-section);
+            margin: 5% auto;
+            padding: 30px;
+            border: 1px solid var(--primary);
+            width: 90%;
+            max-width: 600px;
+            border-radius: 15px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .close-modal {
+            color: var(--text-muted);
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-modal:hover { color: var(--text-main); }
+
+        .modal-body h3 { color: var(--primary); margin: 20px 0 10px; }
+        .modal-body p { font-size: 14px; color: var(--text-secondary); margin-bottom: 10px; }
+
         @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
         @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
     </style>
@@ -100,6 +139,30 @@
 <body>
 
     <div id="toast">Em breve!</div>
+
+    <div id="modalPrivacidade" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <div class="modal-body">
+                <h2 style="color: var(--text-main);">Termos e Privacidade</h2>
+                <p>Última atualização: Fevereiro de 2026</p>
+                
+                <h3>1. Coleta de Dados</h3>
+                <p>No momento, o LITZ coleta apenas e-mails de usuários interessados na versão Beta para fins de notificação e convite. Não compartilhamos esses dados com terceiros.</p>
+                
+                <h3>2. Uso da Plataforma</h3>
+                <p>O LITZ é um ambiente focado em leitura. Todo conteúdo enviado por autores passa por uma curadoria oficial para garantir a segurança e a qualidade da comunidade.</p>
+                
+                <h3>3. Direitos Autorais</h3>
+                <p>Os autores retêm todos os direitos sobre suas obras. O LITZ atua apenas como uma plataforma de exibição e promoção para o público leitor.</p>
+                
+                <h3>4. Segurança</h3>
+                <p>Utilizamos protocolos de segurança modernos para proteger as informações dos usuários cadastrados em nossa lista de espera.</p>
+                
+                <button onclick="closeModal()" class="btn-primary" style="margin-top: 20px; width: 100%;">Entendi</button>
+            </div>
+        </div>
+    </div>
 
     <header style="padding: 20px 0; border-bottom: 1px solid rgba(255,255,255,0.05); position: sticky; top: 0; background: rgba(14, 14, 19, 0.9); z-index: 100; backdrop-filter: blur(10px);">
         <nav class="container" style="display: flex; justify-content: space-between; align-items: center;">
@@ -262,14 +325,14 @@
                     <ul style="font-size: 14px; color: var(--text-secondary); line-height: 2;">
                         <li><a href="#inicio">Topo</a></li>
                         <li><a href="#autores">Para Autores</a></li>
-                        <li><a onclick="showToast()">Privacidade</a></li>
+                        <li><a onclick="openModal()">Privacidade</a></li>
                     </ul>
                 </div>
                 <div>
                     <h4 style="color: var(--primary); font-size: 14px; margin-bottom: 15px; text-transform: uppercase;">Social</h4>
                     <ul style="font-size: 14px; color: var(--text-secondary); line-height: 2;">
-                        <li><a onclick="showToast()">Discord</a></li>
-                        <li><a onclick="showToast()">Instagram</a></li>
+                        <li><a href="https://discord.gg/cnMaxMxSbJ" target="_blank">Discord</a></li>
+                        <li><a href="https://www.instagram.com/litzorignals?igsh=eTJ1ZG5tb21hZG9z" target="_blank">Instagram</a></li>
                     </ul>
                 </div>
             </div>
@@ -280,12 +343,19 @@
     </footer>
 
     <script>
+        // Função do Toast
         function showToast() {
             var x = document.getElementById("toast");
             x.className = "show";
             setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
         }
-    </script>
 
-</body>
-</html>
+        // Funções do Modal de Privacidade
+        function openModal() {
+            document.getElementById("modalPrivacidade").style.display = "block";
+            document.body.style.overflow = "hidden"; // Trava o scroll da página ao abrir
+        }
+
+        function closeModal() {
+            document.getElementById("modalPrivacidade").style.display = "none";
+            document.body.style.overflow = "auto"; // Destrava o 

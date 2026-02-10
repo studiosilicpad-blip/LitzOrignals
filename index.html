@@ -3,284 +3,257 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Briefing Completo - Criação de Site</title>
+    <title>Briefing Pro - Criação de Site</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #0f172a;
-            --card: #1e293b;
-            --text: #f1f5f9;
-            --primary: #6366f1;
-            --input: #334155;
-            --border: #475569;
-            --whatsapp: #22c55e;
+            --bg: #0b0f1a;
+            --card: #161e2d;
+            --text: #f8fafc;
+            --primary: #818cf8;
+            --primary-hover: #6366f1;
+            --input: #1f2937;
+            --border: #374151;
+            --whatsapp: #10b981;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: var(--bg);
+            background-image: radial-gradient(circle at top right, #1e1b4b, transparent);
             color: var(--text);
             margin: 0;
-            padding: 20px;
+            padding: 40px 20px;
             display: flex;
             justify-content: center;
         }
 
+        /* Barra de Progresso Estática/Dinâmica */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: #1e293b;
+            z-index: 1000;
+        }
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), #c084fc);
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
         .container {
-            max-width: 850px;
+            max-width: 800px;
             width: 100%;
             background: var(--card);
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            padding: 50px;
+            border-radius: 24px;
+            border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
         }
 
-        h1 { color: var(--primary); text-align: center; margin-bottom: 5px; }
-        .subtitle { text-align: center; color: #94a3b8; margin-bottom: 30px; line-height: 1.4; }
+        h1 { font-weight: 800; font-size: 2.2rem; margin-bottom: 10px; background: linear-gradient(to right, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .subtitle { color: #94a3b8; margin-bottom: 40px; font-size: 1.1rem; }
 
         fieldset {
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 25px;
+            border: none;
+            padding: 0;
+            margin-bottom: 40px;
+            animation: fadeIn 0.5s ease forwards;
         }
 
-        legend { font-weight: bold; color: var(--primary); padding: 0 10px; font-size: 1.1em; }
+        legend { font-weight: 700; color: var(--primary); margin-bottom: 20px; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
+        legend::before { content: ''; width: 24px; height: 2px; background: var(--primary); display: inline-block; }
 
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
 
-        .field { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 8px; font-size: 0.9em; color: #cbd5e1; font-weight: 500; }
+        .field { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-size: 0.85rem; font-weight: 600; color: #cbd5e1; }
 
         input, textarea, select {
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             background: var(--input);
-            border: 1px solid var(--border);
-            border-radius: 6px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
             color: white;
-            box-sizing: border-box;
-            font-size: 14px;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        input:focus, textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(129, 140, 248, 0.2);
+            background: #111827;
         }
 
         .checkbox-group {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 10px;
-            margin-top: 10px;
-            background: rgba(0,0,0,0.2);
-            padding: 15px;
-            border-radius: 8px;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 12px;
+            background: rgba(0,0,0,0.15);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
         }
 
-        .checkbox-item { display: flex; align-items: center; gap: 8px; font-size: 0.9em; cursor: pointer; }
-        .checkbox-item input { width: auto; cursor: pointer; }
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+        .checkbox-item:hover { background: rgba(255,255,255,0.05); }
+        .checkbox-item input { width: 18px; height: 18px; accent-color: var(--primary); }
 
         .btn-whatsapp {
-            background-color: var(--whatsapp);
+            background: var(--whatsapp);
             color: white;
             padding: 20px;
             border: none;
-            border-radius: 8px;
+            border-radius: 16px;
             cursor: pointer;
-            font-size: 18px;
-            font-weight: bold;
+            font-size: 1.1rem;
+            font-weight: 800;
             width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            transition: 0.3s;
-            margin-top: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            gap: 12px;
+            transition: all 0.3s;
+            box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.3);
         }
 
-        .btn-whatsapp:hover { background-color: #16a34a; transform: scale(1.01); }
+        .btn-whatsapp:hover { transform: translateY(-3px); box-shadow: 0 20px 25px -5px rgba(16, 185, 129, 0.4); filter: brightness(1.1); }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
+<div class="progress-container"><div class="progress-bar" id="pBar"></div></div>
+
 <div class="container">
     <h1>Solicitação de Criação de Site</h1>
-    <p class="subtitle">Preencha o formulário abaixo para entendermos seu projeto e criar um site sob medida para seu negócio.</p>
+    <p class="subtitle">Transforme sua ideia em um projeto digital de alto nível.</p>
 
     <form id="briefingForm">
         <fieldset>
-            <legend>1. Dados Básicos</legend>
+            <legend>Identificação</legend>
             <div class="field">
-                <label>Nome completo</label>
-                <input type="text" id="nome" required>
-            </div>
-            <div class="field">
-                <label>Nome da empresa/marca</label>
-                <input type="text" id="empresa">
+                <label>Nome Completo *</label>
+                <input type="text" id="nome" placeholder="Como quer ser chamado?" required oninput="updateProgress()">
             </div>
             <div class="grid">
                 <div class="field">
-                    <label>WhatsApp</label>
-                    <input type="tel" id="whatsapp_cli" placeholder="(00) 00000-0000">
+                    <label>WhatsApp *</label>
+                    <input type="tel" id="whatsapp_cli" placeholder="(00) 00000-0000" required oninput="updateProgress()">
                 </div>
                 <div class="field">
-                    <label>E-mail</label>
-                    <input type="email" id="email_cli">
+                    <label>E-mail Corporativo</label>
+                    <input type="email" id="email_cli" placeholder="exemplo@empresa.com">
                 </div>
             </div>
         </fieldset>
 
         <fieldset>
-            <legend>2. Sobre o Negócio</legend>
+            <legend>O Negócio</legend>
             <div class="field">
-                <label>O que sua empresa faz?</label>
-                <textarea id="o_que_faz" rows="2"></textarea>
+                <label>O que sua empresa faz e qual o diferencial?</label>
+                <textarea id="negocio" rows="3" placeholder="Conte-me o que te torna único no mercado..."></textarea>
             </div>
             <div class="field">
-                <label>Quais serviços/produtos oferece?</label>
-                <textarea id="servicos" rows="2"></textarea>
-            </div>
-            <div class="field">
-                <label>Principal diferencial do seu negócio?</label>
-                <input type="text" id="diferencial">
+                <label>Público-alvo e Região</label>
+                <input type="text" id="publico" placeholder="Ex: Mulheres 25-40 anos, nível Brasil">
             </div>
         </fieldset>
 
         <fieldset>
-            <legend>3. Objetivo e Público-Alvo</legend>
+            <legend>Estrutura & Estilo</legend>
             <div class="field">
-                <label>Qual o principal objetivo do site?</label>
+                <label>Objetivo Principal</label>
                 <select id="objetivo">
-                    <option value="Vender">Vender</option>
-                    <option value="Receber contatos">Receber contatos</option>
-                    <option value="Apresentar a empresa">Apresentar a empresa</option>
-                    <option value="Portfólio">Portfólio</option>
-                    <option value="Outro">Outro</option>
+                    <option value="Vender Online">Vender Online (E-commerce)</option>
+                    <option value="Gerar Leads">Gerar Contatos/Orçamentos</option>
+                    <option value="Autoridade">Autoridade/Institucional</option>
+                    <option value="Portfólio">Exibir Portfólio</option>
                 </select>
             </div>
-            <div class="field">
-                <label>Quem é seu cliente ideal?</label>
-                <input type="text" id="cliente_ideal">
-            </div>
-            <div class="field">
-                <label>Atende só na sua cidade ou outras regiões?</label>
-                <input type="text" id="regiao">
-            </div>
-        </fieldset>
-
-        <fieldset>
-            <legend>4. Conteúdo</legend>
-            <label>Você já tem:</label>
-            <div class="checkbox-group">
-                <label class="checkbox-item"><input type="checkbox" name="ja_tem" value="Logo"> Logo</label>
-                <label class="checkbox-item"><input type="checkbox" name="ja_tem" value="Fotos"> Fotos</label>
-                <label class="checkbox-item"><input type="checkbox" name="ja_tem" value="Textos"> Textos</label>
-                <label class="checkbox-item"><input type="checkbox" name="ja_tem" value="Redes Sociais"> Redes sociais</label>
-            </div>
-            <div class="field" style="margin-top: 15px;">
-                <label>Precisa que eu crie o conteúdo?</label>
-                <select id="criar_conteudo">
-                    <option value="Sim">Sim, preciso</option>
-                    <option value="Não">Não, eu já tenho tudo</option>
-                    <option value="Parcialmente">Algumas partes apenas</option>
-                </select>
-            </div>
-        </fieldset>
-
-        <fieldset>
-            <legend>5. Páginas do Site</legend>
-            <label>Quais páginas deseja?</label>
+            <label>Páginas Necessárias</label>
             <div class="checkbox-group">
                 <label class="checkbox-item"><input type="checkbox" name="paginas" value="Home"> Home</label>
                 <label class="checkbox-item"><input type="checkbox" name="paginas" value="Sobre"> Sobre</label>
-                <label class="checkbox-item"><input type="checkbox" name="paginas" value="Serviços/Produtos"> Serviços/Produtos</label>
-                <label class="checkbox-item"><input type="checkbox" name="paginas" value="Contato"> Contato</label>
-                <label class="checkbox-item"><input type="checkbox" name="paginas" value="Galeria"> Galeria</label>
+                <label class="checkbox-item"><input type="checkbox" name="paginas" value="Serviços"> Serviços</label>
                 <label class="checkbox-item"><input type="checkbox" name="paginas" value="Blog"> Blog</label>
                 <label class="checkbox-item"><input type="checkbox" name="paginas" value="FAQ"> FAQ</label>
-            </div>
-            <div class="field" style="margin-top:15px">
-                <label>Outras páginas:</label>
-                <input type="text" id="paginas_extras">
+                <label class="checkbox-item"><input type="checkbox" name="paginas" value="Galeria"> Galeria</label>
             </div>
         </fieldset>
 
         <fieldset>
-            <legend>6. Estilo e Funcionalidades</legend>
+            <legend>Finalização</legend>
             <div class="field">
-                <label>Cores da marca</label>
-                <input type="text" id="cores" placeholder="Ex: Azul e Branco">
+                <label>Prazo e Expectativa</label>
+                <input type="text" id="prazo" placeholder="Ex: 30 dias">
             </div>
             <div class="field">
-                <label>Sites de referência (links)</label>
-                <textarea id="referencias" rows="2"></textarea>
-            </div>
-            <div class="field">
-                <label>Estilo desejado (moderno, simples, elegante, etc.)</label>
-                <input type="text" id="estilo_v">
-            </div>
-            <label>Funcionalidades extras:</label>
-            <div class="checkbox-group">
-                <label class="checkbox-item"><input type="checkbox" name="func" value="Botão WhatsApp"> Botão do WhatsApp</label>
-                <label class="checkbox-item"><input type="checkbox" name="func" value="Formulário"> Formulário de contato</label>
-                <label class="checkbox-item"><input type="checkbox" name="func" value="Loja Virtual"> Loja virtual</label>
-                <label class="checkbox-item"><input type="checkbox" name="func" value="Agendamento"> Agendamento online</label>
-            </div>
-        </fieldset>
-
-        <fieldset>
-            <legend>7. Prazo e Observações</legend>
-            <div class="field">
-                <label>Quando precisa do site pronto?</label>
-                <input type="text" id="prazo">
-            </div>
-            <div class="field">
-                <label>Algo mais que devemos saber?</label>
-                <textarea id="obs" rows="3"></textarea>
+                <label>Observações Finais</label>
+                <textarea id="obs" rows="2" placeholder="Algo que não perguntei?"></textarea>
             </div>
         </fieldset>
 
         <button type="button" class="btn-whatsapp" onclick="enviarWhatsApp()">
-            🚀 Enviar para meu desenvolvedor
+            <span>ENVIAR PROPOSTA VIA WHATSAPP</span>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12.012 2c-5.508 0-9.987 4.479-9.987 9.988 0 1.758.459 3.411 1.264 4.849l-1.346 4.918 5.035-1.321c1.402.766 2.997 1.201 4.692 1.201 5.508 0 9.987-4.479 9.987-9.988 0-5.509-4.479-9.988-9.987-9.988zm4.84 13.855c-.212.597-1.22 1.096-1.685 1.163-.44.064-.863.307-2.793-.46-2.454-.977-4.04-3.468-4.162-3.63-.122-.163-.993-1.321-.993-2.518s.612-1.785.834-2.029c.221-.244.482-.305.642-.305s.322.002.463.008c.148.006.347-.056.545.419.204.488.696 1.693.757 1.815.061.122.102.264.021.427-.081.162-.122.264-.244.406-.122.142-.257.318-.367.427-.122.122-.25.257-.108.502.142.244.632 1.041 1.36 1.69.934.832 1.723 1.09 1.967 1.213.244.123.386.102.529-.061.142-.163.611-.712.773-.956.163-.244.326-.204.549-.122.224.081 1.422.671 1.666.793.244.122.407.183.467.285.061.101.061.587-.151 1.184z"/></svg>
         </button>
     </form>
 </div>
 
 <script>
+    // Função de Barra de Progresso
+    function updateProgress() {
+        const fields = document.querySelectorAll('input[required]');
+        let filled = 0;
+        fields.forEach(f => { if(f.value.length > 2) filled++; });
+        const percent = (filled / fields.length) * 100;
+        document.getElementById('pBar').style.width = percent + '%';
+    }
+
+    // Função Enviar
     function enviarWhatsApp() {
-        const meuNumero = "5585996891895"; // <--- COLOQUE SEU NÚMERO AQUI (55 + DDD)
+        const meuNumero = "5500999999999"; // <-- COLOQUE SEU WHATSAPP AQUI
+        
+        const nome = document.getElementById('nome').value;
+        const zap = document.getElementById('whatsapp_cli').value;
+        const objetivo = document.getElementById('objetivo').value;
+        const prazo = document.getElementById('prazo').value;
+        const obs = document.getElementById('obs').value;
 
-        const getVal = (id) => document.getElementById(id).value;
-        const getCheck = (name) => {
-            let res = [];
-            document.querySelectorAll(`input[name="${name}"]:checked`).forEach(i => res.push(i.value));
-            return res.join(", ");
-        };
+        if(!nome || !zap) {
+            alert("Por favor, preencha os campos obrigatórios (Nome e WhatsApp)");
+            return;
+        }
 
-        let msg = `*NOVO BRIEFING DE SITE*%0A%0A`;
-        msg += `*1. DADOS BÁSICOS*%0A`;
-        msg += `*Nome:* ${getVal('nome')}%0A`;
-        msg += `*Empresa:* ${getVal('empresa')}%0A`;
-        msg += `*WhatsApp:* ${getVal('whatsapp_cli')}%0A%0A`;
+        let paginas = [];
+        document.querySelectorAll('input[name="paginas"]:checked').forEach(e => paginas.push(e.value));
 
-        msg += `*2. SOBRE O NEGÓCIO*%0A`;
-        msg += `*O que faz:* ${getVal('o_que_faz')}%0A`;
-        msg += `*Diferencial:* ${getVal('diferencial')}%0A%0A`;
+        const msg = `🚀 *NOVA SOLICITAÇÃO DE SITE*%0A%0A` +
+                    `👤 *Cliente:* ${nome}%0A` +
+                    `📱 *WhatsApp:* ${zap}%0A` +
+                    `🎯 *Objetivo:* ${objetivo}%0A` +
+                    `📄 *Páginas:* ${paginas.join(', ')}%0A` +
+                    `⏳ *Prazo:* ${prazo}%0A%0A` +
+                    `📝 *Obs:* ${obs}`;
 
-        msg += `*3. OBJETIVO/PÚBLICO*%0A`;
-        msg += `*Objetivo:* ${getVal('objetivo')}%0A`;
-        msg += `*Público:* ${getVal('cliente_ideal')}%0A%0A`;
-
-        msg += `*4. PÁGINAS*%0A`;
-        msg += `*Páginas:* ${getCheck('paginas')}%0A%0A`;
-
-        msg += `*5. ESTILO/FUNC*%0A`;
-        msg += `*Estilo:* ${getVal('estilo_v')}%0A`;
-        msg += `*Funcionalidades:* ${getCheck('func')}%0A%0A`;
-
-        msg += `*6. PRAZO:* ${getVal('prazo')}%0A`;
-        msg += `*OBS:* ${getVal('obs')}`;
-
-        const url = `https://api.whatsapp.com/send?phone=${meuNumero}&text=${msg}`;
-        window.open(url, '_blank');
+        window.open(`https://api.whatsapp.com/send?phone=${meuNumero}&text=${msg}`, '_blank');
     }
 </script>
 

@@ -17,18 +17,20 @@
             --whatsapp: #10b981;
         }
 
+        /* Bloqueio de seleção para proteger o design */
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: var(--bg);
             background-image: radial-gradient(circle at top right, #1e1b4b, transparent);
             color: var(--text);
             margin: 0;
-            padding: 40px 20px;
+            padding: 40px 20px 80px 20px;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            user-select: none; /* Evita cópia de texto genérica */
         }
 
-        /* Barra de Progresso Estática/Dinâmica */
         .progress-container {
             position: fixed;
             top: 0;
@@ -83,6 +85,7 @@
             color: white;
             transition: all 0.3s ease;
             outline: none;
+            user-select: text; /* Permite digitar nos campos */
         }
 
         input:focus, textarea:focus {
@@ -134,12 +137,25 @@
 
         .btn-whatsapp:hover { transform: translateY(-3px); box-shadow: 0 20px 25px -5px rgba(16, 185, 129, 0.4); filter: brightness(1.1); }
 
+        /* Estilo da Marca/Assinatura */
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #475569;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        footer b {
+            color: var(--primary);
+            text-shadow: 0 0 8px rgba(129, 140, 248, 0.4);
+        }
+
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body>
-
-<div class="progress-container"><div class="progress-bar" id="pBar"></div></div>
+<body oncontextmenu="return false;"> <div class="progress-container"><div class="progress-bar" id="pBar"></div></div>
 
 <div class="container">
     <h1>Solicitação de Criação de Site</h1>
@@ -217,6 +233,10 @@
     </form>
 </div>
 
+<footer>
+    Desenvolvido por <b>Slvz.Web  </b> &copy; 2026
+</footer>
+
 <script>
     // Função de Barra de Progresso
     function updateProgress() {
@@ -229,7 +249,7 @@
 
     // Função Enviar
     function enviarWhatsApp() {
-        const meuNumero = "5585996891895"; // <-- COLOQUE SEU WHATSAPP AQUI
+        const meuNumero = "5585996891895";
         
         const nome = document.getElementById('nome').value;
         const zap = document.getElementById('whatsapp_cli').value;
@@ -255,7 +275,17 @@
 
         window.open(`https://api.whatsapp.com/send?phone=${meuNumero}&text=${msg}`, '_blank');
     }
+
+    
+    document.onkeydown = function(e) {
+        if(e.keyCode == 123) return false; // F12
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
+        if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
+    }
 </script>
 
 </body>
-</html>
+            </html>
+                                                 
